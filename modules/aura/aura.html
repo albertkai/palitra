@@ -1,0 +1,22 @@
+<template name="aura">
+
+    <div id="admin-login-modal">
+
+        <div class="body">
+
+            <div class="close"><span class="glyphicon glyphicon-remove-sign"></span></div>
+
+            {{>loginButtons}}
+
+        </div>
+
+    </div>
+
+    {{#if isInRole 'admin'}}
+
+        {{>auraAdminPanel}}
+        {{>auraEditor}}
+
+    {{/if}}
+
+</template>

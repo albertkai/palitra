@@ -1,0 +1,493 @@
+<head>
+    <title>Северная палитра | О нас</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/favicon.ico"/>
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml"/>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="modal-ovrl"></div>
+
+{{#if isInRole 'admin'}}
+
+    <div class="post-modal aura-modal">
+        <button class="close-modal"><i class="fa fa-times"></i></button>
+        <h3>Добавить новость</h3>
+        <form class="form">
+            <input id="title" type="text" class="required" min-length="1" max-length="200" placeholder="Заголовок"/>
+            <textarea id="content" class="required" min-length="1" max-length="1200" cols="30" rows="10" placeholder="Текст"></textarea>
+            <button>Добавить</button>
+        </form>
+    </div>
+
+{{/if}}
+
+
+{{>aura}}
+
+
+{{>main}}
+
+</body>
+
+
+<template name="main">
+
+    <div id="loader"></div>
+
+    {{>topNav}}
+
+    <div id="main-cont">
+        <div id="top" class="section" data-anchor="about" data-document="top" data-collection="pages" data-index-field="name">{{>top}}</div>
+        <div id="service-section" class="section" data-anchor="service" data-document="service" data-collection="pages" data-index-field="name">{{>service}}</div>
+        <div id="gallery-section" class="section" data-anchor="gallery">{{>gallery}}</div>
+        <div id="capabilities-section" class="section" data-anchor="capabilities" data-document="capabilities" data-collection="pages" data-index-field="name">{{>capabilities}}</div>
+        <div id="news-section" class="section" data-anchor="news" data-collection="news">{{>news}}</div>
+        <div id="contacts-section" class="section" data-anchor="contacts" data-document="contacts" data-collection="pages" data-index-field="name">{{>contacts}}</div>
+    </div>
+    
+    <div id="bottom-stripe">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+</template>
+
+
+<template name="topNav">
+    <header>
+        <div class="container">
+            <nav id="top-menu">
+                <ul>
+                    <li data-menuanchor="about" class="active"><a href="#about">О КОМПАНИИ</a></li>
+                    <li data-menuanchor="service"><a href="#service">ПРОДУКЦИЯ</a></li>
+                    <li data-menuanchor="gallery"><a href="#gallery">ГАЛЕРЕЯ</a></li>
+                </ul>
+                <ul>
+                    <li data-menuanchor="capabilities"><a href="#capabilities">ВОЗМОЖНОСТИ</a></li>
+                    <li data-menuanchor="news"><a href="#news">НОВОСТИ И АКЦИИ</a></li>
+                    <li data-menuanchor="contacts"><a href="#contacts">КОНТАКТЫ</a></li>
+                </ul>
+            </nav>
+            <a href="#about" id="logo"></a>
+        </div>
+    </header>
+</template>
+
+
+<template name="top">
+
+    {{#with top}}
+
+    <div class="slide" data-anchor="top-slide1" data-image="{{image1}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image1}})">
+
+        <div class="container">
+            <p class="desc" data-field="text1" contenteditable="false">{{{text1}}}</p>
+            <button>подробнее</button>
+        </div>
+
+    </div>
+
+    <div class="slide" data-anchor="top-slide2" data-image="{{image2}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image2}})">
+
+        <div class="container">
+            <p class="desc" data-field="text2" contenteditable="false">{{{text2}}}</p>
+            <button>подробнее</button>
+        </div>
+
+    </div>
+
+    <div class="slide" data-anchor="top-slide3" data-image="{{image3}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image3}})">
+
+        <div class="container">
+            <p class="desc" data-field="text3" contenteditable="false">{{{text3}}}</p>
+            <button>подробнее</button>
+        </div>
+
+    </div>
+
+
+    <nav class="slider-controls">
+
+        <ul class="container">
+            <li><a class="toSlide _active" data-index="1"></a></li>
+            <li><a class="toSlide" data-index="2"></a></li>
+            <li><a class="toSlide" data-index="3"></a></li>
+        </ul>
+
+    </nav>
+
+    {{/with}}
+
+
+
+</template>
+
+
+<template name="service">
+
+    {{#with service}}
+
+    <div class="container first-cont">
+
+        <div class="row">
+            <div data-animate="0">
+                <div class="img" data-toggle="service-home"></div>
+                <h3 data-toggle="service-home"><span>Мебель для</span><br/>ДОМА</h3>
+                <hr/>
+                <p data-field="shortDesc1" contenteditable="false">{{{shortDesc1}}}</p>
+            </div>
+            <div data-animate=".2">
+                <div class="img" data-toggle="service-office"></div>
+                <h3 data-toggle="service-office"><span>Мебель для</span><br/>ОФИСА</h3>
+                <hr/>
+                <p data-field="shortDesc2" contenteditable="false">{{{shortDesc2}}}</p>
+            </div>
+            <div data-animate=".4">
+                <div class="img" data-toggle="service-commercial"></div>
+                <h3 data-toggle="service-commercial"><span>Торговое</span><br/>ОБОРУДОВАНИЕ</h3>
+                <hr/>
+                <p data-field="shortDesc3" contenteditable="false">{{{shortDesc3}}}</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="service-home" class="service-cont">
+        <div class="service-bg"></div>
+        <div class="ovrl"></div>
+        <div class="arrows left"><i class="fa fa-angle-left"></i></div>
+        <div class="arrows right"><i class="fa fa-angle-right"></i></div>
+        <div class="close-it"></div>
+        <div class="container">
+            <div class="row">
+                <div class="left-cont" data-field="descHome" contenteditable="false">
+                    {{{descHome}}}
+                </div>
+                <ul class="links-cont">
+                    <li><a data-target="cabinet"><span>Кабинеты</span></a></li>
+                    <li><a data-target="home"><span>Гостинные</span></a></li>
+                    <li><a data-target="home"><span>Ванные комнаты</span></a></li>
+                    <li><a data-target="kitchen"><span>Кухни</span></a></li>
+                    <li><a data-target="children"><span>Детские</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="service-office" class="service-cont">
+        <div class="service-bg"></div>
+        <div class="ovrl"></div>
+        <div class="arrows left"><i class="fa fa-angle-left"></i></div>
+        <div class="arrows right"><i class="fa fa-angle-right"></i></div>
+        <div class="close-it"></div>
+        <div class="container">
+            <div class="row">
+                <div class="left-cont" data-field="descOffice" contenteditable="false">
+                    {{{descOffice}}}
+                </div>
+                <ul class="links-cont">
+                    <li><a data-target="home"><span>Приемные и аривы</span></a></li>
+                    <li><a data-target="home"><span>Рабочие места</span></a></li>
+                    <li><a data-target="home"><span>Переговорные комнаты</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="service-commercial" class="service-cont">
+        <div class="service-bg"></div>
+        <div class="ovrl"></div>
+        <div class="arrows left"><i class="fa fa-angle-left"></i></div>
+        <div class="arrows right"><i class="fa fa-angle-right"></i></div>
+        <div class="close-it"></div>
+        <div class="container">
+            <div class="row">
+                <div class="left-cont" data-field="descCommerce" contenteditable="false">
+                    {{{descCommerce}}}
+                </div>
+                <ul class="links-cont">
+                    <li><a data-target="shop"><span>Магазины</span></a></li>
+                    <li><a data-target="cafe"><span>Кафе и рестораны</span></a></li>
+                    <li><a data-target="pavillon"><span>Павильоны</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {{/with}}
+
+</template>
+
+
+<template name="gallery">
+
+    <div class="gallery-cont">
+
+        <ul class="top-prev">
+            {{#each galleryPrev.images}}
+            <li data-image="{{this}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{this}}_thumb.jpg)"></li>
+            {{/each}}
+        </ul>
+
+        <div class="spinner"></div>
+
+        <div class="new-pic"></div>
+
+        <div class="pic"></div>
+
+        <div class="preview">
+            <h3>
+                <p class="container"><strong class="title"></strong><span class="sort"><span class="active" data-sort="all">Все</span><span data-sort="home">Для дома</span><span data-sort="office">Для офиса</span><span data-sort="commerce">Для торговли</span></span></p>
+            </h3>
+            <div class="carousel-cont">
+                <ul>
+                    {{#each gallery}}
+                    <li class="thumb" data-id="{{_id}}" data-sub="{{subcategory}}" data-target="{{main}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{main}}_thumb.jpg);"></li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</template>
+
+
+<template name="capabilities">
+
+    {{#with capabilities}}
+
+    <div class="main-cont">
+        <div class="the-pic">
+
+            <div class="tip">
+                Кликните, чтобы прочитать подробно
+                <div></div>
+            </div>
+
+            <div data-animate=".2" class="arrow"></div>
+            <div data-animate=".6" class="arrow"></div>
+            <div data-animate="1" class="arrow"></div>
+            <div data-animate="1.4" class="arrow"></div>
+
+            <div id="consult-circle" class="circle">
+                <p data-animate="0"><span>1</span><br/><span>Консультация</span></p>
+                <div class="tltp">
+                    {{{tltp1}}}
+                </div>
+            </div>
+            <div id="design-circle" class="circle">
+                <p data-animate=".4"><span>2</span><br/><span>Дизайн</span></p>
+                <div class="tltp">
+                    {{{tltp2}}}
+                </div>
+            </div>
+            <div id="production-circle" class="circle">
+                <p data-animate=".8"><span>3</span><br/><span>Производство</span></p>
+                <div class="tltp">
+                    {{{tltp3}}}
+                </div>
+            </div>
+            <div id="delivery-circle" class="circle">
+                <p data-animate="1.2"><span>4</span><br/><span>Окраска</span></p>
+                <div class="tltp">
+                    {{{tltp4}}}
+                </div>
+            </div>
+            <div id="installation-circle" class="circle">
+                <p data-animate="1.6"><span>5</span><br/><span>Установка</span></p>
+                <div class="tltp">
+                    {{{tltp5}}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ovrl">
+            <div class="close-it"></div>
+            <nav>
+                <ul>
+                    <li class="_active">
+                        <div>1</div>
+                    </li>
+                    <li>
+                        <div>2</div>
+                    </li>
+                    <li>
+                        <div>3</div>
+                    </li>
+                    <li>
+                        <div>4</div>
+                    </li>
+                    <li>
+                        <div>5</div>
+                    </li>
+                </ul>
+            </nav>
+            <div class="cap-cont">
+                <ul>
+                    <li style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{img1}})">
+                        <div class="left-ovrl"></div>
+                        <div class="container">
+                            <h2>1</h2>
+                            <h3>Консультация</h3>
+                            <p data-field="desc1" contenteditable="false">{{{desc1}}}</p>
+                        </div>
+                    </li>
+                    <li style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{img2}})">
+                        <div class="left-ovrl"></div>
+                        <div class="container">
+                            <h2>2</h2>
+                            <h3>Дизайн</h3>
+                            <p data-field="desc2" contenteditable="false">{{{desc2}}}</p>
+                        </div>
+                    </li>
+                    <li style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{img3}})">
+                        <div class="left-ovrl"></div>
+                        <div class="container">
+                            <h2>3</h2>
+                            <h3>Производство</h3>
+                            <p data-field="desc3" contenteditable="false">{{{desc3}}}</p>
+                        </div>
+                    </li>
+                    <li style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{img4}})">
+                        <div class="left-ovrl"></div>
+                        <div class="container">
+                            <h2>4</h2>
+                            <h3>Окраска</h3>
+                            <p data-field="desc4" contenteditable="false">{{{desc4}}}</p>
+                        </div>
+                    </li>
+                    <li  style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{img5}})">
+                        <div class="left-ovrl"></div>
+                        <div class="container">
+                            <h2>5</h2>
+                            <h3>Установка</h3>
+                            <p data-field="desc5" contenteditable="false">{{{desc5}}}</p>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    {{/with}}
+
+</template>
+
+
+<template name="news">
+
+    <div class="container">
+
+        <div class="row">
+
+            <aside>
+
+                <ul data-animate="0">
+                    {{#each newsList}}
+                    <li data-id="{{_id}}">
+                        <h4>{{getDate date}}</h4>
+
+                        <h3>{{title}}</h3>
+
+                        {{#if isInRole 'admin'}}
+                            <button class="delete"><i class="fa fa-times"></i></button>
+                        {{/if}}
+                    </li>
+                    {{/each}}
+                    {{#if isInRole 'admin'}}
+                    <button class="new"><i class="fa fa-plus"></i></button>
+                    {{/if}}
+                </ul>
+
+            </aside>
+
+            {{#with firstNew}}
+            <article  data-animate="0" data-document="{{_id}}">
+
+                <h4>{{getDate date}}</h4>
+
+                <h3 data-field="title" contenteditable="false">{{title}}</h3>
+
+                <p data-field="content" contenteditable="false">{{{content}}}</p>
+
+            </article>
+            {{/with}}
+
+
+        </div>
+
+    </div>
+
+
+</template>
+
+
+
+<template name="contacts">
+
+    {{#with contacts}}
+
+    <div class="container">
+        <div class="row" data-animate="0">
+            <div>
+                <div id="contacts-phone" data-field="phone" contenteditable="false">
+                    {{{phone}}}
+                </div>
+            </div>
+            <div>
+                <div id="contacts-email" data-field="email" contenteditable="false">
+                    {{{email}}}
+                </div>
+            </div>
+            <div>
+                <div id="contacts-address" data-field="address" contenteditable="false">
+                    {{{address}}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{/with}}
+
+    <div id="map"></div>
+
+</template>

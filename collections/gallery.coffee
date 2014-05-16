@@ -1,0 +1,1 @@
+@Gallery = new Meteor.Collection 'gallery'

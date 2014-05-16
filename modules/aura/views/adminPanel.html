@@ -1,0 +1,43 @@
+<template name="auraAdminPanel">
+    <div class="admin-panel">
+
+        <div id="toggle-admin-panel">
+
+        </div>
+        <div class="wrap">
+            <div class="header">
+
+                <div class="user-pic"></div>
+
+                <h3>{{currentUser.profile.name}}</h3>
+                <h2>{{currentUser.profile.surname}}</h2>
+
+                <a id="open-dashboard" href="{{pathFor 'dashboard'}}">Открыть дэшборд</a>
+                <hr/>
+            </div>
+            <div class="body">
+                <h4>Режим правки</h4>
+                <input id="edit-mode" type="checkbox"/> Режим правки
+                <hr/>
+                <a class="toggle-collection-modal" data-collection="Events">События</a>
+                <a class="toggle-collection-modal" data-collection="Courses">Курсы</a>
+                <a cass="togge-collection-modal" data-collection="Trainers">Тренеры</a>
+                <hr/>
+                <a class="toggle-page" data-page="Course">Создать курс</a>
+                <hr/>
+                <div id="history-cont">
+                    <ul>
+                        {{#each history}}
+                        <li data-id="{{_id}}" data-selector-path="{{selectorPath}}" class="{{#if rolledBack}}rolled-back{{/if}}">
+                            <h5>{{getDate date}}</h5>
+                            <p>{{collection}}>{{document}}>{{field}}</p>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</template>

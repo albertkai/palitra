@@ -1,0 +1,154 @@
+@editor-zindex: 9999;
+@editor-overlay-zindex: 9998;
+
+.editor{
+  position: fixed;
+  z-index: 9000;
+  background: rgba(255, 255, 255, .7);
+  height: 100%;
+  width: 70px;
+  left: -70px;
+  box-shadow: 0 0 3px #999;
+  .transition(.4s);
+  z-index: @editor-zindex;
+  .html-cont{
+    position: absolute;
+    left: 88px;
+    top: 30px;
+    background: rgba(0, 0, 0, .8);
+    height: 236px;
+    width: 300px;
+    padding: 4px;
+    border-radius: 3px;
+    border: 2px solid white;
+    .transition(.4s);
+    visibility: hidden;
+    -webkit-animation-duration: .7s;
+    -moz-animation-duration: .7s;
+    -o-animation-duration: .7s;
+    animation-duration: .7s;
+    textarea{
+      width: 100%;
+      height: 190px;
+      resize: none;
+      border: 0;
+      -webkit-box-shadow: inset 0 0 3px #ccc;
+      -moz-box-shadow: inset 0 0 3px #ccc;
+      box-shadow: inset 0 0 3px #ccc;
+    }
+    button{
+      height: 26px;
+      line-height: 19px;
+      margin: 4px;
+      float: right;
+      border-color: white;
+      color: white;
+      background: #000;
+    }
+    >div{
+      position: absolute;
+      top: 19px;
+      left: -12px;
+      border-right: 12px solid white;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
+  }
+  .b-group{
+    height: 50px;
+    margin: 10px;
+    width: 50px;
+    .transition(all .4s ease);
+    &:hover{
+      width: 360px;
+      ul{
+        li{
+          width: 50px;
+          opacity: 1;
+          >button{
+            margin: 0;
+          }
+        }
+      }
+    }
+    >button{
+      float: left;
+      margin: 7px 3px;
+    }
+    ul{
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li{
+        display: inline-block;
+        position: relative;
+        opacity: 0;
+        .transition(all .4s ease);
+        width: 0;
+        &:first-of-type{
+          z-index: 3;
+          opacity: 1 !important;
+        }
+        >button{
+          float: left;
+          margin: 0 3px 0 0;
+        }
+      }
+    }
+  }
+  &._opened{
+    left: 0;
+  }
+  h4{
+    text-align: center;
+    color: #999;
+  }
+  button{
+    border: 0;
+    width: 50px;
+    height: 50px;
+    display: block;
+    .rounded(50px);
+    border: 2px solid #999;
+    .box-sizing(border-box);
+    text-align: center;
+    line-height: 43px;
+    margin: 10px;
+    background: white;
+    .transition(all .4s ease);
+    &.save{
+      border-color: #00d311;
+      color: #00d311;
+    }
+    &:hover{
+      .scale(1.1);
+    }
+    &._active{
+      border-color: #93b4ff;
+    }
+  }
+}
+
+._editor-hover{
+  background-color: rgba(20, 255, 0, .2);
+}
+
+#editor-overlay{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  &._active{
+    z-index: @editor-overlay-zindex;
+  }
+}
+
+*[contenteditable="true"]{
+  .transition(all 1s ease);
+  &._editing{
+    position: relative;
+    z-index: @editor-zindex;
+  }
+}

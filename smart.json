@@ -1,0 +1,11 @@
+{
+  "packages": {
+    "bootstrap3-less": {},
+    "stellar": {},
+    "roles": {},
+    "moment-with-langs": {},
+    "npm": {},
+    "pnotify": {},
+    "aws-sdk": {}
+  }
+}
