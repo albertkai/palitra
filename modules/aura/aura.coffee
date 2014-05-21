@@ -57,6 +57,8 @@ if Meteor.isClient
 
 
 
+
+
     Template.auraEditor.events {
 
       'click button': (e)->
@@ -227,7 +229,124 @@ UI.body.events {
       }
       console.log editor._changedBuffer
       $(e.target).closest('[contenteditable="true"]').addClass('_changed')
+
+  'change .aura-edit-image input[type="file"]': (e)->
+    input = $(e.target)
+    file = input.get(0).files[0]
+    fr = new FileReader()
+    MainCtrl.showLoader()
+    fr.onload = ->
+      pic = {}
+      pic['data'] = fr.result
+      pic['name'] = file.name
+      pic['size'] = file.size
+      pic['type'] = file.type
+      currentPic = do ->
+        if $(e.target).closest('[data-image]').data('image-target') is 'background'
+          path = $(e.target).closest('[data-image]').css('background-image')
+          _.last(path.split('/')).replace(')', '')
+        else
+          path = $(e.target).closest('[data-image]').attr('src')
+          _.last path.split('/')
+      target = $(e.target).closest('[data-image]').data('image-target') or 'img'
+      (new PNotify({
+        title: 'Удалить старое изображение?',
+        text: 'Желательно удалять, чтобы не перегружать хостинг',
+        hide: false,
+        confirm: {
+          confirm: true
+        },
+        buttons: {
+          closer: false,
+          sticker: false
+        },
+        history: {
+          history: false
+        }
+      })).get().on('pnotify.confirm', ->
+
+        Aura.media.updatePic(e, pic, file, target, currentPic)
+
+      ).on('pnotify.cancel', ->
+        Aura.media.uploadPic(e, pic, file, target)
+      )
+
+    fr.readAsBinaryString(file)
+
+  'change .auraModal .list-cont .add input[type="file"]': (e)->
+    console.log 'triggered change'
+    input = $(e.target)
+    file = input.get(0).files[0]
+    id = $('#albumId').val()
+    fr = new FileReader()
+    MainCtrl.showLoader()
+    Aura.media.resizeAndUpload(id, file)
+
+  'dragover [data-image]': (e)->
+    if e.preventDefault then e.preventDefault()
+    $(e.target).closest('[data-image]').addClass('_hover')
+    return false
+  'dragenter [data-image]': (e)->
+    if e.preventDefault then e.preventDefault()
+    $(e.target).closest('[data-image]').addClass('_hover')
+    return false
+  'dragleave [data-image]': (e)->
+    $(e.target).closest('[data-image]').removeClass('_hover')
+    return false
+  'drop [data-image]': (e)->
+    e.preventDefault()
+    e.stopPropagation()
+    $(e.target).removeClass('_hover')
+    file = e.originalEvent.dataTransfer.files[0]
+    fr = new FileReader()
+    MainCtrl.showLoader()
+    fr.onload = ->
+      pic = {}
+      pic['data'] = fr.result
+      pic['name'] = file.name
+      pic['size'] = file.size
+      pic['type'] = file.type
+      currentPic = do ->
+        if $(e.target).closest('[data-image]').data('image-target') is 'background'
+          path = $(e.target).closest('[data-image]').css('background-image')
+          _.last(path.split('/')).replace(')', '')
+        else
+          path = $(e.target).closest('[data-image]').attr('src')
+          _.last path.split('/')
+      target = $(e.target).closest('[data-image]').data('image-target') or 'img'
+      (new PNotify({
+        title: 'Удалить старое изображение?',
+        text: 'Желательно удалять, чтобы не перегружать хостинг',
+        hide: false,
+        confirm: {
+          confirm: true
+        },
+        buttons: {
+          closer: false,
+          sticker: false
+        },
+        history: {
+          history: false
+        }
+      })).get().on('pnotify.confirm', ->
+
+        Aura.media.updatePic(e, pic, file, target, currentPic)
+
+      ).on('pnotify.cancel', ->
+        Aura.media.uploadPic(e, pic, file, target)
+      )
+
+    fr.readAsBinaryString(file)
+
+  'mouseenter .aura-edit-image': (e)->
+    $(e.target).closest('[data-image]').addClass('_hover')
+
+  'mouseleave .aura-edit-image': (e)->
+    $(e.target).closest('[data-image]').removeClass('_hover')
+
 }
+
+
 
 
 
@@ -247,9 +366,169 @@ UI.body.events {
     new PNotify({
       title: 'Спасибо!',
       text: message
-    });
+    })
+
+  media: {
+
+    uploadPic: (e, pic, file, target)->
+
+      Meteor.call 'uploadPic', pic, (err, res)->
+        if err
+          MainCtrl.hideLoader()
+          Aura.notify('Произошла ошибка, обратитесь к разработчику!')
+        else
+          if res
+            console.log file.name
+            fieldName = $(e.target).closest('[data-image]').data('image')
+            document = $(e.target).closest('[data-document]').data('document')
+            indexField = $(e.target).closest('[data-document]').data('index-field') or '_id'
+            collection = $(e.target).closest('[data-collection]').data('collection')
+            query = {}
+            newData = {}
+            query[indexField] = document
+            newData[fieldName] = file.name
+            targetId = eColl[collection].findOne(query)._id
+            eColl[collection].update targetId, {$set: newData}, {reactive: false}, ->
+              if target is 'background'
+                $('<img>').attr('src', 'http://d9bm0rz9duwg1.cloudfront.net/' + file.name).load ->
+                  MainCtrl.hideLoader()
+                  $(e.target).closest('[data-image]').css('background-image', 'url(http://d9bm0rz9duwg1.cloudfront.net/' + file.name + ')')
+
+                  #Fix only for FullPage.js weird behavior
+                  $(e.target).closest('[data-image]').width($(window).width())
+                  $(e.target).closest('[data-image]').siblings('[data-image]').width($(window).width())
+                  #end fix
+
+                  Aura.notify('Изображение обновлено, спасибо!')
+              else if target is 'img'
+                $('<img>').attr('src', 'http://d9bm0rz9duwg1.cloudfront.net/' + file.name).load ->
+                  MainCtrl.hideLoader()
+                  $(e.target).closest('[data-image]').attr('src', 'url(http://d9bm0rz9duwg1.cloudfront.net/' + file.name)
+          else
+            MainCtrl.hideLoader()
+            Aura.notify('Произошла ошибка, обратитесь к разработчику!')
+
+    updatePic: (e, pic, file, target, currentPic)->
+
+      Meteor.call 'deletePic', currentPic, (err, res)->
+
+        if err
+
+          Aura.notify 'Изображение не удалено:( Может и к лучшему))'
+
+        else
+
+          if res
+
+            Aura.media.uploadPic(e, pic, file, target)
+
+          else
+
+            Aura.notify 'Изображение не удалено:( Ошибка на стороне сервера'
+
+    resizeAndUpload: (id, file)->
+
+      console.log 'triggered upload with resize'
+
+      pic = {}
+      resizedPic = {}
+
+      deferred = $.Deferred()
+
+      resize = ()->
+        reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onLoad = (e)->
+          $.canvasResize(file, {
+            width: 300,
+            height: 0,
+            crop: false,
+            quality: 80,
+            callback: (data)->
+              deferred.resolve(data)
+              console.log {data: data}
+          })
+        deferred.promise()
 
 
+      originalFile = ()->
+        reader = new FileReader()
+        deferred = $.Deferred()
+        reader.readAsBinaryString(file)
+        reader.onload = (e)->
+          ifile = reader.result
+          deferred.resolve(ifile)
+          console.log {reader: ifile}
+        deferred.promise()
+
+
+
+      $.when(originalFile(), resize()).done (ifile, resizedFile)=>
+        console.log 'resolved'
+        pic['fileInfo'] = file
+        pic['data'] = ifile
+        resizedPic['fileInfo'] = file
+        resizedPic['data'] = resizedFile
+        console.log pic
+        console.log resizedPic
+        Meteor.call 'uploadWithThumb', [pic, resizedPic], (err, res)->
+          if err
+
+            Aura.notify 'Упс, что-то пошло не так:('
+
+          else
+
+            if res
+
+              console.log res
+
+              Gallery.update id, {$push: {'images': res}}, ->
+
+                Aura.notify 'Изображение ' + res + ' добавлено!'
+
+                MainCtrl.hideLoader()
+
+            else
+
+              Aura.notify 'Что-то пошло не так, обратитесь к разработчику!'
+
+    deletePic: (pic)->
+
+      Meteor.call 'deletePic', pic, (err, res)->
+
+        if err
+
+          Aura.notify 'Изображение не удалено:( Может и к лучшему))'
+
+        else
+
+          if res
+
+            Aura.notify 'Изображение успешно удалено!'
+
+          else
+
+            Aura.notify 'Изображение не удалено:( Ошибка на стороне сервера'
+
+    deletePics: (pics)->
+
+      Meteor.call 'deletePics', pics, (err, res)->
+
+        if err
+
+          Aura.notify 'Изображения не удалены:( Может и к лучшему))'
+
+        else
+
+          if res
+
+            Aura.notify 'Изображения успешно удалено!'
+
+          else
+
+            Aura.notify 'Изображения не удалены:( Ошибка на стороне сервера'
+
+  }
 
 
   _logsWrite: (buffer)->

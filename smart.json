@@ -6,6 +6,7 @@
     "moment-with-langs": {},
     "npm": {},
     "pnotify": {},
-    "aws-sdk": {}
+    "aws-sdk": {},
+    "jquery-ui": {}
   }
 }

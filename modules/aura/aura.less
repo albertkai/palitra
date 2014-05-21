@@ -1,3 +1,380 @@
-@import 'views/less/admin.lessimport';
-@import 'views/less/editor.lessimport';
-@import 'views/less/mixins.lessimport';
+@import 'less/admin.lessimport';
+@import 'less/editor.lessimport';
+@import 'less/mixins.lessimport';
+
+
+//Classes that affect your markup. You can customize it the way you want
+
+
+*[data-image]{
+  .transition(.4s);
+  &._hover{
+    opacity: .7 !important;
+    &:after{
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &:after{
+    visibility: hidden;
+    content: "ПЕРЕТАЩИТЕ ФОТО";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: table-cell;
+    vertical-align: middle;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    .transition(.4s);
+    background: rgba(10, 100, 255, .5);
+  }
+  .aura-edit-image{
+    z-index: 100;
+  }
+}
+
+
+.aura-edit-image{
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  width: 100px;
+  height: 100px;
+  -webkit-perspective: 700;
+  -moz-perspective: 700;
+  -ms-perspective: 700;
+  perspective: 700;
+  input[type="file"]{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    cursor: pointer;
+    opacity: 0;
+  }
+  button{
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    .rounded(200px);
+    background: rgba(0, 0, 0, .3);
+    border: 2px solid white;
+    color: white;
+    font-size: 35px;
+    text-align: center;
+    line-height: 50px;
+    z-index: 1;
+    .transition(.4s);
+  }
+  .tltp{
+    position: absolute;
+    width: 150px;
+    padding: 10px;
+    background: rgba(0, 0, 0, .5);
+    text-align: center;
+    color: white;
+    border: 2px solid white;
+    .rounded(5px);
+    left: 111px;
+    visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: rotateX(90deg);
+    -moz-transform: rotateX(90deg);
+    -ms-transform: rotateX(90deg);
+    -o-transform: rotateX(90deg);
+    transform: rotateX(90deg);
+    opacity: 0;
+    -webkit-transition: all .5s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+    -moz-transition: all .5s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+    -ms-transition: all .5s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+    -o-transition: all .5s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+    transition: all .5s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+    .corner{
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-right: 8px solid white;
+      position: absolute;
+      top: 40px;
+      left: -10px;
+    }
+  }
+  &:hover{
+    button{
+      background: rgba(0, 0, 0, .5);
+    }
+    .tltp{
+      visibility: visible;
+      -webkit-transform: rotateX(0deg);
+      -moz-transform: rotateX(0deg);
+      -ms-transform: rotateX(0deg);
+      -o-transform: rotateX(0deg);
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+  }
+}
+
+.auraModal{
+  position: fixed;
+  width: 800px;
+  height: 550px;
+  z-index: 9999;
+  background: rgba(255, 255, 255, .9);
+  border-radius: 10px;
+  left: 50%;
+  margin-left: -400px;
+  top: 50%;
+  -webkit-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+  -moz-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+  -ms-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+  -o-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+  transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
+  //  .translate(0, 700px);
+  margin-top: -900px;
+  -webkit-transform: scaleY(.3);
+  -moz-transform: scaleY(.3);
+  -ms-transform: scaleY(.3);
+  -o-transform: scaleY(.3);
+  transform: scaleY(.3);
+  &._opened{
+      //    .translate(0, 0);
+      margin-top: -275px;
+      -webkit-transform: scaleY(1);
+      -moz-transform: scaleY(1);
+      -ms-transform: scaleY(1);
+      -o-transform: scaleY(1);
+      transform: scaleY(1);
+  }
+  .header{
+    position: absolute;
+    height: 60px;
+    top: 0;
+    width: 100%;
+    h3{
+      text-align: center;
+    }
+  }
+  .body{
+    position: absolute;
+    width: 100%;
+    height: 440px;
+    top: 60px;
+    >aside{
+      position: absolute;
+      width: 33%;
+      height: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li{
+          position: relative;
+          padding: 10px;
+          height: 70px;
+          cursor: pointer;
+          .delete{
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+            top: -30px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            border: 2px solid white;
+            color: white;
+            background: rgba(255, 0, 0, .5);
+            .transition(.4s);
+            &:hover{
+              .scale(1.05);
+            }
+          }
+          &:hover, &._active{
+            background: rgba(0, 100, 255, .5);
+          }
+          &:hover{
+            .delete{
+              visibility: visible;
+              opacity: 1;
+              top:-10px;
+            }
+          }
+          >div{
+            position: absolute;
+            height: 100%;
+            top: 0;
+            &:nth-child(1){
+              width: 33%;
+              left: 0;
+              .pic{
+                position: absolute;
+                top: 5%;
+                left: 5%;
+                width: 90%;
+                height: 90%;
+                -webkit-background-size: cover;
+                background-size: cover;
+              }
+            }
+            &:nth-child(2){
+              width: 60%;
+              left: 33%;
+            }
+          }
+        }
+      }
+      .add-new{
+        width: 90%;
+        margin: 5%;
+        height: 40px;
+        border: 2px solid #68CEF8;
+        border-radius: 26px;
+        background: transparent;
+        font-size: 22px;
+        font-family: Impact;
+        color: #68CEF8;
+        .transition(.4s);
+        &:hover{
+          background: #68CEF8;
+          color: white;
+        }
+      }
+    }
+    >div{
+      position: absolute;
+      width: 67%;
+      background: pink;
+      height: 100%;
+      left: 33%;
+      .meta{
+        height: 50px;
+        background: orange;
+        input[type="text"]{
+          width: 40%;
+          margin-left: 5%;
+        }
+      }
+      .list-cont{
+        height: 390px;
+        ul{
+          width: 100%;
+          position: relative;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          padding-top: 10px;
+          li{
+            position: relative;
+            width: 165px;
+            height: 130px;
+            float: left;
+            margin-left: 10px;
+            margin-bottom: 10px;
+            border: 2px solid white;
+            cursor: pointer;
+            .box-shadow(0 0 5px #26A7F8);
+            .delete{
+              position: absolute;
+              visibility: hidden;
+              opacity: 0;
+              top: -30px;
+              right: 10px;
+              width: 40px;
+              height: 40px;
+              border-radius: 40px;
+              border: 2px solid white;
+              color: white;
+              background: rgba(255, 0, 0, .5);
+              .transition(.4s);
+              &:hover{
+                .scale(1.05);
+              }
+            }
+            &:hover{
+              .delete{
+                visibility: visible;
+                opacity: 1;
+                top:-10px;
+              }
+            }
+            .img{
+              width: 100%;
+              height: 100%;
+              -webkit-background-size: cover;
+              background-size: cover;
+            }
+            &.add{
+              position: relative;
+              border: 2px solid #26A7F8;
+              .box-shadow(0 0 0 white);
+              .transition(.4s);
+              cursor: pointer;
+              input[type="file"]{
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 2;
+                opacity: 0;
+              }
+              button{
+                width: 60px;
+                height: 60px;
+                .rounded(60px);
+                border:0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-left: -30px;
+                margin-top: -30px;
+                color: white;
+                text-align: center;
+                line-height: 10px;
+                padding-bottom: 7px;
+                background: #26A7F8;
+                font-size: 30px;
+                .transition(.4s);
+                z-index: 1;
+              }
+              &:hover{
+                background: #26A7F8;
+                button{
+                  color: #26A7F8;
+                  background: white;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .close-modal{
+    position: absolute;
+    top: -22px;
+    right: -22px;
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, .5);
+    border: 2px solid white;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    text-align: center;
+    .transition(.5s);
+    line-height: 30px;
+    &:hover{
+      background: rgba(0, 0, 0, .8);
+    }
+  }
+}

@@ -1,0 +1,13 @@
+<template name="addImageButton">
+
+    {{#if isInRole 'admin'}}
+
+    <div class="aura-edit-image">
+        <input type="file"/>
+        <button><i class="fa fa-picture-o"></i></button>
+        <div class="tltp animated"><div class="corner"></div>Нажмите, чтобы загрузить новое фото, или просто перетащите изображение на область, выделенную синим</div>
+    </div>
+
+    {{/if}}
+
+</template>

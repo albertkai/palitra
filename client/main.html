@@ -4,8 +4,15 @@
     <link rel="shortcut icon" href="/img/favicon.ico"/>
     <link rel="alternate" type="application/rss+xml" href="/feed.xml"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
+
+
+<div class="preloading">
+    <div class="preloader-logo"></div>
+    <div class="prelader-spinner"></div>
+</div>
 
 <div class="modal-ovrl"></div>
 
@@ -113,29 +120,35 @@
 
     {{#with top}}
 
-    <div class="slide" data-anchor="top-slide1" data-image="{{image1}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image1}})">
+    <div class="slide" data-anchor="top-slide1" data-image="image1" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image1}})">
+
+        {{>addImageButton}}
 
         <div class="container">
             <p class="desc" data-field="text1" contenteditable="false">{{{text1}}}</p>
-            <button>подробнее</button>
+            <button data-target="service"><span><i class="fa fa-angle-down"></i><br/></span>подробнее</button>
         </div>
 
     </div>
 
     <div class="slide" data-anchor="top-slide2" data-image="{{image2}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image2}})">
 
+        {{>addImageButton}}
+
         <div class="container">
             <p class="desc" data-field="text2" contenteditable="false">{{{text2}}}</p>
-            <button>подробнее</button>
+            <button data-target="gallery">подробнее</button>
         </div>
 
     </div>
 
     <div class="slide" data-anchor="top-slide3" data-image="{{image3}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image3}})">
 
+        {{>addImageButton}}
+
         <div class="container">
             <p class="desc" data-field="text3" contenteditable="false">{{{text3}}}</p>
-            <button>подробнее</button>
+            <button data-target="service">подробнее</button>
         </div>
 
     </div>
@@ -221,7 +234,7 @@
                     {{{descOffice}}}
                 </div>
                 <ul class="links-cont">
-                    <li><a data-target="home"><span>Приемные и аривы</span></a></li>
+                    <li><a data-target="home"><span>Приемные и архивы</span></a></li>
                     <li><a data-target="home"><span>Рабочие места</span></a></li>
                     <li><a data-target="home"><span>Переговорные комнаты</span></a></li>
                 </ul>
@@ -258,9 +271,11 @@
 
     <div class="gallery-cont">
 
+        {{>editGalleryButton}}
+
         <ul class="top-prev">
             {{#each galleryPrev.images}}
-            <li data-image="{{this}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{this}}_thumb.jpg)"></li>
+            <li data-image="{{this}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{getThumb this}})"></li>
             {{/each}}
         </ul>
 
@@ -277,7 +292,7 @@
             <div class="carousel-cont">
                 <ul>
                     {{#each gallery}}
-                    <li class="thumb" data-id="{{_id}}" data-sub="{{subcategory}}" data-target="{{main}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{main}}_thumb.jpg);"></li>
+                    <li class="thumb" data-id="{{_id}}" data-sub="{{subcategory}}" data-target="{{images.[0]}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{images.[0]}});"></li>
                     {{/each}}
                 </ul>
             </div>

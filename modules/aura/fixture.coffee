@@ -12,6 +12,17 @@ if Meteor.isServer
     }
     Roles.addUsersToRoles(user, ['root','admin'])
 
+    user = Accounts.createUser {
+      username: 'zahar41'
+      email: 'zahar41@bk.ru'
+      password: '5178058'
+      profile: {
+        name: 'Захар',
+        surname: 'Лебедев'
+      }
+    }
+    Roles.addUsersToRoles(user, ['root','admin'])
+
 
   Meteor.startup ->
 

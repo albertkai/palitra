@@ -1,0 +1,12 @@
+<template name="editGalleryButton">
+
+    {{#if isInRole 'admin'}}
+
+    <div class="aura-edit-image">
+        <button><i class="fa fa-picture-o"></i></button>
+        <div class="tltp animated"><div class="corner"></div>Редактируйте вашу галерею. Менять порядок можно просто меняя места альбомов и изображений перетаскиванием!</div>
+    </div>
+
+    {{/if}}
+
+</template>
