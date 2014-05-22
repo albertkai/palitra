@@ -68,6 +68,9 @@ Template.main.rendered = ->
   mainLoaded.on 'progress', (instance, image)->
     console.log 'pic loaded'
 
+
+  MainCtrl.svgLoader.update(2)
+
 #  Meteor.setTimeout ->
 #
 #    MainCtrl.
@@ -568,6 +571,24 @@ Template.galleryList.rendered = ->
     $('#top').find('.slide').first().find('.container').find('.desc').addClass('_animated')
     $('#top').find('.slide').first().find('.container').find('button').addClass('_animated')
 
+  svgLoader: {
+    max: 5
+    count: 0
+    step: 3
+    update: (add)->
+      shift = @count * @step
+      range = add * @step
+      for num in [0..range]
+        do (num)->
+          f = ->
+            number = num
+            if shift + number < 15
+              $('#svg-logo').find('>g').get(shift + number).getElementsByTagName('g')[0].setAttribute('class', '_done')
+          _.delay(f, _.random(0, 500))
+      @count += add
+
+  }
+
 }
 
 
@@ -658,6 +679,8 @@ class @TemplatesRendered
 
       console.log 'all templates loaded!'
 
+      MainCtrl.svgLoader.update(2)
+
       @callback()
 
 
@@ -675,12 +698,16 @@ class @Loader
 
     console.log 'файл' + ins + 'загружен! Ура'
 
+    MainCtrl.svgLoader.update(1)
+
     @count++
 
     if @count >= @max
 
-      $('.preloading').addClass('_loaded')
-      @callback()
+      Meteor.setTimeout =>
+        $('.preloading').addClass('_loaded')
+        @callback()
+      , 600
 
   init: ->
 

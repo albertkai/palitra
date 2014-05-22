@@ -31,6 +31,8 @@ textarea{
   resize: none;
 }
 
+//SVG
+
 
 //Fonts
 
@@ -1986,13 +1988,41 @@ label.error{
     opacity: 0;
     visibility: hidden;
   }
-  .preloader-logo{
-    width: 400px;
-    height: 550px;
+  #svg-logo{
     margin: 0 auto;
-    margin-top: 30px;
-    background: url(/img/p-logo.png);
+    display: block;
+    >g{
+      g{
+        opacity: 0;
+        .translate(0, -70px);
+        .transition(.7s);
+        &._done{
+          opacity: 1;
+          .translate(0, 0);
+        }
+      }
+    }
+  }
+  #sev{
+    position: relative;
+    top: -282px;
+    margin: 0 auto;
+    background-image: url(/img/sev.png);
+    width: 333px;
+    height: 171px;
     -webkit-background-size: cover;
     background-size: cover;
+    .translate(-7px, 0);
+  }
+  #pal{
+    position: relative;
+    top: -346px;
+    margin: 0 auto;
+    width: 333px;
+    height: 79px;
+    background-image: url(/img/pal.png);
+    -webkit-background-size: cover;
+    background-size: cover;
+    .translate(-3px, 0);
   }
 }
