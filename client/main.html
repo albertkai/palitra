@@ -1,10 +1,14 @@
 <head>
     <title>Северная палитра | О нас</title>
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="initial-scale=1">-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="/img/favicon.ico"/>
     <link rel="alternate" type="application/rss+xml" href="/feed.xml"/>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script src="http://rangy.googlecode.com/svn/trunk/currentrelease/rangy-core.js"></script>
 </head>
 <body>
 
@@ -423,24 +427,24 @@
 
     </div>
 
-    <div class="slide" data-anchor="top-slide2" data-image="{{image2}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image2}})">
+    <div class="slide" data-anchor="top-slide2" data-image="image2" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image2}})">
 
         {{>addImageButton}}
 
         <div class="container">
             <p class="desc" data-field="text2" contenteditable="false">{{{text2}}}</p>
-            <button data-target="gallery">подробнее</button>
+            <button data-target="gallery"><span><i class="fa fa-angle-down"></i><br/></span>подробнее</button>
         </div>
 
     </div>
 
-    <div class="slide" data-anchor="top-slide3" data-image="{{image3}}" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image3}})">
+    <div class="slide" data-anchor="top-slide3" data-image="image3" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image3}})">
 
         {{>addImageButton}}
 
         <div class="container">
             <p class="desc" data-field="text3" contenteditable="false">{{{text3}}}</p>
-            <button data-target="service">подробнее</button>
+            <button data-target="capabilities"><span><i class="fa fa-angle-down"></i><br/></span>подробнее</button>
         </div>
 
     </div>
@@ -504,11 +508,12 @@
                     {{{descHome}}}
                 </div>
                 <ul class="links-cont">
-                    <li><a data-target="cabinet"><span>Кабинеты</span></a></li>
-                    <li><a data-target="home"><span>Гостинные</span></a></li>
-                    <li><a data-target="home"><span>Ванные комнаты</span></a></li>
-                    <li><a data-target="kitchen"><span>Кухни</span></a></li>
-                    <li><a data-target="children"><span>Детские</span></a></li>
+                    <li><a id="gost" data-target="gost"><span>Гостинные</span></a></li>
+                    <li><a id="dets" data-target="dets"><span>Детские</span></a></li>
+                    <li><a id="kuhn" data-target="kuhn"><span>Кухни</span></a></li>
+                    <li><a id="vann" data-target="vann"><span>Ванные</span></a></li>
+                    <li><a id="gard" data-target="gard"><span>Гардеробные</span></a></li>
+                    <li><a id="spal" data-target="spal"><span>Спальни</span></a></li>
                 </ul>
             </div>
         </div>
@@ -526,9 +531,10 @@
                     {{{descOffice}}}
                 </div>
                 <ul class="links-cont">
-                    <li><a data-target="home"><span>Приемные и архивы</span></a></li>
-                    <li><a data-target="home"><span>Рабочие места</span></a></li>
-                    <li><a data-target="home"><span>Переговорные комнаты</span></a></li>
+                    <li><a id="arch" data-target="arch"><span>Архивы</span></a></li>
+                    <li><a id="rabo" data-target="rabo"><span>Рабочие места</span></a></li>
+                    <li><a id="pere" data-target="pere"><span>Переговорные комнаты</span></a></li>
+                    <li><a id="prie" data-target="prie"><span>Приемные</span></a></li>
                 </ul>
             </div>
         </div>
@@ -546,9 +552,9 @@
                     {{{descCommerce}}}
                 </div>
                 <ul class="links-cont">
-                    <li><a data-target="shop"><span>Магазины</span></a></li>
-                    <li><a data-target="cafe"><span>Кафе и рестораны</span></a></li>
-                    <li><a data-target="pavillon"><span>Павильоны</span></a></li>
+                    <li><a id="maga" data-target="maga"><span>Магазины</span></a></li>
+                    <li><a id="cafe" data-target="cafe"><span>Кафе и рестораны</span></a></li>
+                    <li><a id="pavi" data-target="pavi"><span>Павильоны</span></a></li>
                 </ul>
             </div>
         </div>
@@ -614,33 +620,18 @@
 
             <div id="consult-circle" class="circle">
                 <p data-animate="0"><span>1</span><br/><span>Консультация</span></p>
-                <div class="tltp">
-                    {{{tltp1}}}
-                </div>
             </div>
             <div id="design-circle" class="circle">
                 <p data-animate=".4"><span>2</span><br/><span>Дизайн</span></p>
-                <div class="tltp">
-                    {{{tltp2}}}
-                </div>
             </div>
             <div id="production-circle" class="circle">
                 <p data-animate=".8"><span>3</span><br/><span>Производство</span></p>
-                <div class="tltp">
-                    {{{tltp3}}}
-                </div>
             </div>
             <div id="delivery-circle" class="circle">
                 <p data-animate="1.2"><span>4</span><br/><span>Окраска</span></p>
-                <div class="tltp">
-                    {{{tltp4}}}
-                </div>
             </div>
             <div id="installation-circle" class="circle">
                 <p data-animate="1.6"><span>5</span><br/><span>Установка</span></p>
-                <div class="tltp">
-                    {{{tltp5}}}
-                </div>
             </div>
 
         </div>

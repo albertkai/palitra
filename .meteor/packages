@@ -4,7 +4,6 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-insecure
 coffeescript
 bootstrap3-less
 underscore
@@ -18,3 +17,4 @@ npm
 pnotify
 aws-sdk
 jquery-ui
+ace-embed

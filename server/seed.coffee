@@ -1,5 +1,5 @@
 
-if Gallery.find().count() < 5
+if Gallery.find().count() is 0
 
   Gallery.insert {
     'order': 0
@@ -26,15 +26,6 @@ if Gallery.find().count() < 5
     'images': ['DSC_3125.jpg', 'DSC_3136.jpg']
     'main': 'DSC_3125.jpg'
     'title': 'Кафе'
-  }
-
-  Gallery.insert {
-    'order': 3
-    'category': 'home'
-    'subcategory': 'cabinet'
-    'images': ['IMAG0141.jpg', 'IMAG0143.jpg', 'IMAG0144.jpg', 'IMAG0145.jpg']
-    'main': 'IMAG0141.jpg'
-    'title': 'Кабинет'
   }
 
 

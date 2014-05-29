@@ -2,12 +2,24 @@
 
     <div id="admin-login-modal">
 
+        <div class="close"><i class="fa fa-times"></i></div>
+
+
+        <div class="header">
+            <div class="aura-company-logo"></div>
+        </div>
+
         <div class="body">
 
-            <div class="close"><span class="glyphicon glyphicon-remove-sign"></span></div>
+            <form id="aura-login-form">
+                <input id="email" type="text"/>
+                <input id="password" type="password"/>
+                <button>ВОЙТИ</button>
+            </form>
+        </div>
 
-            {{>loginButtons}}
-
+        <div class="footer">
+            <p>AURA<span>CMS</span></p>
         </div>
 
     </div>

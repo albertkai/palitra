@@ -10,7 +10,7 @@
   width: 970px;
 }
 
-input[type="text"]{
+input[type="text"], input[type="password"]{
   width: 100%;
   height: 33px;
   border-radius: 30px;
@@ -64,7 +64,7 @@ textarea{
 @yellow: rgb(255, 247, 148);
 @green: rgb(109, 255, 109);
 @blue: rgb(104, 206, 248);
-@yellow_s: rgb(255, 255, 0);
+@yellow_s: rgb(251, 255, 101);
 
 @font-family-sans-serif: "Segoe UI Light";
 @font-family-script: "Acquest Script";
@@ -394,6 +394,13 @@ header{
         -o-transition-delay: .4s;
         transition-delay: .4s;
         opacity: 0;
+        >span{
+          i{
+            font-size: 70px;
+            margin-bottom: -135px;
+            margin-top: -10px;
+          }
+        }
         &._animated{
           .translate(0, 0);
           opacity: 1;
@@ -567,6 +574,7 @@ header{
         .row{
           .left-cont{
             h2{
+              margin-top: -20px;
               span{
                 &:nth-child(1){
                   opacity: 1;
@@ -700,10 +708,10 @@ header{
             }
           }
           h4{
-            color: #a8a6d2;;
+            color: #5a54a3;
           }
           p{
-            color: #a8a6d2;
+            color: #5451a3;
           }
           ol{
             li{
@@ -769,25 +777,74 @@ header{
               font-family: @font-family-bold;
               font-size: 22px;
               text-align: center;
+              -webkit-background-size: cover;
+              background-size: cover;
               cursor: pointer;
               .transition(.4s);
               .scale(0);
               span{
                 position: relative;
                 top: 220px;
+                font-size: 36px;
+                font-family: @font-family-script;
+                line-height: 10px;
+              }
+              &#arch{
+                background-image: url(/img/service/arch.jpg);
+              }
+              &#dets{
+                background-image: url(/img/service/dets.jpg);
+              }
+              &#gard{
+                background-image: url(/img/service/gard.jpg);
+              }
+              &#gost{
+                background-image: url(/img/service/gost.jpg);
+              }
+              &#kuhn{
+                background-image: url(/img/service/kuhn.jpg);
+              }
+              &#pere{
+                background-image: url(/img/service/pere.jpg);
+              }
+              &#prie{
+                background-image: url(/img/service/prie.jpg);
+              }
+              &#rabo{
+                background-image: url(/img/service/rabo.jpg);
+              }
+              &#spal{
+                width: 160px;
+                height: 160px;
+                background-image: url(/img/service/spal.jpg);
+              }
+              &#vann{
+                background-image: url(/img/service/vann.jpg);
+              }
+              &#maga{
+                background-image: url(/img/service/maga.jpg);
+              }
+              &#pavi{
+                background-image: url(/img/service/pavi.jpg);
+              }
+              &#cafe{
+                background-image: url(/img/service/cafe.jpg);
               }
             }
             &:nth-child(1){
-              right: 210px;
-              top: 43px;
+              right: 238px;
+              top: 24px;
               a{
-                width: 210px;
-                height: 210px;
+                width: 170px;
+                height: 170px;
                 -webkit-transition-delay: 0;
                 -moz-transition-delay: 0;
                 -ms-transition-delay: 0;
                 -o-transition-delay: 0;
                 transition-delay: 0;
+                span{
+                  top: 173px;
+                }
               }
             }
             &:nth-child(2){
@@ -807,8 +864,8 @@ header{
               }
             }
             &:nth-child(3){
-              top: 320px;
-              right: 210px;
+              top: 229px;
+              right: 161px;
               a{
                 width: 130px;
                 height: 130px;
@@ -840,17 +897,31 @@ header{
             }
             &:nth-child(5){
               top: 460px;
-              right: 25px;
+              right: 0px;
               a{
-                width: 150px;
-                height: 150px;
+                width: 130px;
+                height: 130px;
                 -webkit-transition-delay: .6s;
                 -moz-transition-delay: .6s;
                 -ms-transition-delay: .6s;
                 -o-transition-delay: .6s;
                 transition-delay: .6s;
                 span{
-                  top: 163px;
+                  top: 142px;
+                }
+              }
+            }
+            &:nth-child(6){
+              top: 424px;
+              right: 170px;
+              a{
+                -webkit-transition-delay: .7s;
+                -moz-transition-delay: .7s;
+                -ms-transition-delay: .7s;
+                -o-transition-delay: .7s;
+                transition-delay: .7s;
+                span{
+                  top: 158px;
                 }
               }
             }
@@ -902,16 +973,19 @@ header{
           .links-cont{
             li{
               &:nth-child(1){
-                right: 0;
-                top: 43px;
+                right: 30px;
+                top: 26px;
                 a{
-                  width: 210px;
-                  height: 210px;
+                  width: 180px;
+                  height: 180px;
+                  span{
+                    top: 189px;
+                  }
                 }
               }
               &:nth-child(2){
-                right: 234px;
-                top: 215px;
+                right: 191px;
+                top: 330px;
                 a{
                   width: 160px;
                   height: 160px;
@@ -921,13 +995,24 @@ header{
                 }
               }
               &:nth-child(3){
-                top: 340px;
-                right: 30px;
+                top: 314px;
+                right: 0;
                 a{
-                  width: 130px;
-                  height: 130px;
+                  width: 140px;
+                  height: 140px;
                   span{
-                    top: 144px;
+                    top: 150px;
+                  }
+                }
+              }
+              &:nth-child(4){
+                top: 90px;
+                right: 278px;
+                a{
+                  width: 150px;
+                  height: 150px;
+                  span{
+                    top: 159px;
                   }
                 }
               }
@@ -975,6 +1060,9 @@ header{
                 a{
                   width: 210px;
                   height: 210px;
+                }
+                span{
+                  top: 216px;
                 }
               }
               &:nth-child(2){
@@ -1095,7 +1183,7 @@ header{
       bottom: 80px;
       color: @gray;
       z-index: 3;
-      &:hover{
+      &:hover, &._opened{
         .carousel-cont{
           height: 150px;
           ul{
@@ -1112,14 +1200,18 @@ header{
         >span{
           position: absolute;
           right: 0;
+          top: -6px;
           >span{
             font-size: 18px;
             font-style: italic;
             margin-right: 20px;
             cursor: pointer;
+            color: white;
+            padding: 3px 12px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, .3);
             &.active{
-              font-size: 20px;
-              font-weight: bold;
+              background: rgba(0, 0, 0, .7);
               font-style: normal;
               text-transform: uppercase;
             }

@@ -3,6 +3,8 @@
 
         <div id="toggle-admin-panel">
 
+            <div class="aura-logo"></div>
+
         </div>
         <div class="wrap">
             <div class="header">
@@ -16,16 +18,13 @@
                 <hr/>
             </div>
             <div class="body">
-                <h4>Режим правки</h4>
-                <input id="edit-mode" type="checkbox"/> Режим правки
-                <hr/>
-                <a class="toggle-collection-modal" data-collection="Events">События</a>
-                <a class="toggle-collection-modal" data-collection="Courses">Курсы</a>
-                <a cass="togge-collection-modal" data-collection="Trainers">Тренеры</a>
-                <hr/>
-                <a class="toggle-page" data-page="Course">Создать курс</a>
+                <div class="aura-toggle-edit">
+                    <p>просмотр</p>
+                    <div></div>
+                </div>
                 <hr/>
                 <div id="history-cont">
+                    <h3>История</h3>
                     <ul>
                         {{#each history}}
                         <li data-id="{{_id}}" data-selector-path="{{selectorPath}}" class="{{#if rolledBack}}rolled-back{{/if}}">

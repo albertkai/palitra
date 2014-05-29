@@ -23,6 +23,19 @@ if Meteor.isServer
     }
     Roles.addUsersToRoles(user, ['root','admin'])
 
+  if Meteor.users.find({'username': 'svedan'}).count() is 0
+
+    user = Accounts.createUser {
+      username: 'svedan'
+      email: 'svedan@bk.ru'
+      password: 'Njrdjcj'
+      profile: {
+        name: 'Светлана',
+        surname: 'Орлова'
+      }
+    }
+    Roles.addUsersToRoles(user, ['root','admin'])
+
 
   Meteor.startup ->
 

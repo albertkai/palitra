@@ -125,11 +125,13 @@
   width: 800px;
   height: 550px;
   z-index: 9999;
-  background: rgba(255, 255, 255, .9);
+  background: rgba(0, 0, 0, .7);
+  border: 2px solid white;
   border-radius: 10px;
   left: 50%;
   margin-left: -400px;
   top: 50%;
+  color: white;
   -webkit-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
   -moz-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
   -ms-transition: all .7s cubic-bezier(0.650, -0.600, 0.415, 1.650);
@@ -251,19 +253,22 @@
     >div{
       position: absolute;
       width: 67%;
-      background: pink;
+      background: white;
       height: 100%;
       left: 33%;
       .meta{
         height: 50px;
-        background: orange;
+        background: white;
+        border-bottom: 1px solid #ccc;
         input[type="text"]{
           width: 40%;
           margin-left: 5%;
+          color: black;
         }
       }
       .list-cont{
         height: 390px;
+        overflow-y: scroll;
         ul{
           width: 100%;
           position: relative;
@@ -372,7 +377,8 @@
     font-size: 20px;
     text-align: center;
     .transition(.5s);
-    line-height: 30px;
+    line-height: 36px;
+    z-index: 10;
     &:hover{
       background: rgba(0, 0, 0, .8);
     }

@@ -2,9 +2,15 @@ if Meteor.isClient
 
   Session.setDefault 'admin.editMode', false
 
+  Template.auraAdminPanel.helpers {
+    history: ->
+      History.find({}, {sort: {date: -1}})
+    getDate: (date)->
+      moment(date).lang('ru').format('DD.MM.YYYY HH:MM')
+  }
+
 
   Meteor.startup ->
-
 
     Deps.autorun ->
       if Session.get('admin.editMode') is true
@@ -28,24 +34,17 @@ if Meteor.isClient
           Session.set('admin.editMode', false)
 
       'mouseenter #history-cont li': (e)->
-        path = $(e.target).data('selector-path')
-        if $(path).length > 0
-          $(path).addClass('_focus')
-          Meteor.setTimeout ->
-            if $(e.target).is(':hover')
-              $.scrollTo $(path), 500, {offset: -150}
-          , 500
+#        path = $(e.target).data('selector-path')
+#        if $(path).length > 0
+#          $(path).addClass('_focus')
+#          Meteor.setTimeout ->
+#            if $(e.target).is(':hover')
+#              $.scrollTo $(path), 500, {offset: -150}
+#          , 500
 
       'click #history-cont li': (e)->
         target = $(e.target).closest('li').data('id')
         Aura._historyRestore(target)
-    }
-
-    Template.auraAdminPanel.helpers {
-      history: ->
-        History.find({}, {sort: {date: -1}})
-      getDate: (date)->
-        moment(date).lang('ru').format('DD.MM.YYYY HH:MM')
     }
 
     Template.aura.events {
@@ -57,7 +56,25 @@ if Meteor.isClient
 
 
 
+    Template.auraEditor.rendered = ->
 
+      editor.auraEditorHtml = ace.edit("editorHtml")
+      editor.auraEditorHtml.setTheme("ace/theme/monokai")
+      editor.auraEditorHtml.getSession().setMode("ace/mode/html")
+      editor.auraEditorHtml.on 'change', (e)->
+#        value = editor.auraEditorHtml.getValue().replace(/\s+/g, ' ')
+#        target = $('.editor').find('.html-cont').data('path')
+#        console.log target
+#        console.log value
+#        $(target).html(value)
+      $('.html-cont').on 'keyup', ->
+        Meteor.setTimeout ->
+          value = editor.auraEditorHtml.getValue().replace(/\s+/g, ' ')
+          target = $('.editor').find('.html-cont').data('path')
+          console.log target
+          console.log value
+          $(target).html(value)
+        , 50
 
     Template.auraEditor.events {
 
@@ -72,14 +89,12 @@ if Meteor.isClient
           $('.editor .html-cont').removeClass('flipInX').addClass('flipOutX')
 
       'click .editor .html-cont button': (e)->
-        target = $(e.target).siblings('textarea')
-        target.val(target.data('resetData'))
-        console.log target.data('resetData')
-        $(target.data('path')).html(target.val())
+        val = $('.editor .html-cont').data('resetData')
+        editor.auraEditorHtml.setValue(val)
 
-      'input .editor .html-cont textarea': (e)->
-        path = $(e.target).data('path')
-        $(path).html($(e.target).val().trim())
+#      'input .editor .html-cont textarea': (e)->
+#        path = $(e.target).data('path')
+#        $(path).html($(e.target).val().trim())
 
       'blur .editor .html-cont textarea': (e)->
     #    index = $(e.target).data('index')
@@ -157,19 +172,32 @@ UI.body.events {
     e.stopPropagation()
 
   'focus [contenteditable="true"]': (e)->
-    editor.showEditor()
-    editor._trackChanges.currentValue = $(e.target).closest('[contenteditable="true"]').html()
-    editor.editingItem = $(e.target).closest('[contenteditable="true"]').html()
-    $('.editor .html-cont textarea').val(editor.editingItem.trim())
-    $('.editor .html-cont textarea').data('resetData', editor.editingItem.trim())
-    $('.editor .html-cont textarea').data('path', $(e.target).closest('[contenteditable="true"]').getPath())
+    data = $(e.target).closest('[contenteditable="true"]').html()
+    markup = $.htmlClean(data, {format:true})
+    editor.showEditor(markup)
+    editor._trackChanges.currentValue = data
+    editor.editingItem = data
+    $('.editor .html-cont').data('resetData', markup)
+    $('.editor .html-cont').data('path', $(e.target).closest('[contenteditable="true"]').getPath())
 
   'input [contenteditable="true"]': (e)->
     markup = $(e.target).html()
-    $('.editor .html-cont textarea').val(markup.trim())
+    editor.auraEditorHtml.setValue($.htmlClean(markup, {format:true}))
 
-  'click #login-buttons-logout, click #login-buttons-password': ->
+  'click #admin-login-modal .close': ->
     Aura.hideAdminModal()
+
+  'submit #aura-login-form': (e)->
+    e.preventDefault()
+    email = $('#aura-login-form').find('#email').val()
+    password = $('#aura-login-form').find('#password').val()
+    Meteor.loginWithPassword email, password, (err)->
+      if err
+        Aura.notify 'Ошибочка:('
+      else
+        Aura.notify 'Добро пожаловать!'
+        Aura.hideAdminModal()
+    false
 
   'blur [contenteditable="true"]': (e)->
     currentState = $(e.target).closest('[contenteditable="true"]').html()
@@ -217,6 +245,7 @@ UI.body.events {
         selectorPath: $(e.target).getPath()
         type: 'text'
         rolledBack: false
+        changable: true
         nested: fields.nested
       }
       editor._changedBuffer.push {
@@ -343,6 +372,15 @@ UI.body.events {
 
   'mouseleave .aura-edit-image': (e)->
     $(e.target).closest('[data-image]').removeClass('_hover')
+
+  'click .aura-toggle-edit': (e)->
+    $(e.currentTarget).toggleClass('_active')
+    if $(e.currentTarget).hasClass('_active')
+      Session.set 'admin.editMode', true
+      $(e.currentTarget).find('p').text('правка')
+    else
+      Session.set 'admin.editMode', false
+      $(e.currentTarget).find('p').text('просмотр')
 
 }
 
@@ -558,10 +596,11 @@ UI.body.events {
 
     _.each buffer, (history)->
       if !history.rolledBack
-        History.insert {
+        History.insert({
           field: history.field,
           collection: history.collection,
           document: history.document
+          indexField: history.indexField
           date: new Date()
           data: history.data
           selectorPath: history.selectorPath
@@ -569,7 +608,8 @@ UI.body.events {
           type: history.type
           user: Meteor.user()
           rolledBack: history.rolledBack
-        }
+          changable: history.changeable
+        })
         console.log 'triggered saveHistory iterate'
 
       else
@@ -582,24 +622,41 @@ UI.body.events {
 
   _historyRestore: (id)->
 
-    buffer = History.findOne({_id: id})
+    historyItem = History.findOne({_id: id})
 
-    if buffer.rolledBack
-      buffer.data = buffer.newData
+    if historyItem.rolledBack
 
-    #    editor._changedBuffer.push {
-    #      field: buffer.field
-    #      document: buffer.document
-    #      collection: buffer.collection
-    #      data: restoredData
-    #      nested: buffer.nested
-    #    }
+      restoredBuffer = []
 
-    History.update {_id: id}, {$set: {rolledBack: !buffer.rolledBack}}
+      restoredBuffer.push {
+        field: historyItem.field
+        document: historyItem.document
+        collection: historyItem.collection
+        indexField: historyItem.indexField
+        data: historyItem.newData
+        nested: historyItem.nested
+      }
+      console.log restoredBuffer
+      editor.editorSaveText restoredBuffer, ->
+        History.update {_id: id}, {$set: {rolledBack: false}}
+        console.log 'history restored'
 
-    editor._saveText [buffer], ->
-      #      History.remove {_id: id}
-      console.log 'history restored'
+    else
+
+      changedBuffer = []
+
+      changedBuffer.push {
+        field: historyItem.field
+        document: historyItem.document
+        collection: historyItem.collection
+        indexField: historyItem.indexField
+        data: historyItem.data
+        nested: historyItem.nested
+      }
+      console.log changedBuffer
+      editor.editorSaveText changedBuffer, ->
+        History.update {_id: id}, {$set: {rolledBack: true}}
+        console.log 'history restored'
 
 }
 
@@ -699,7 +756,7 @@ UI.body.events {
 
   _saveText: (buffer)->
 
-    Meteor.call 'editorSaveText', buffer, ->
+    editor.editorSaveText buffer, ->
 
 
       Aura._logsWrite(Aura._historyBuffer)
@@ -714,11 +771,73 @@ UI.body.events {
 
     true
 
+  editorSaveText: (changedBuffer, callback)->
 
-  showEditor: ->
+    console.log changedBuffer
+
+    user = Meteor.user()
+
+    if Roles.userIsInRole user, ['admin']
+
+      console.log 'triggered saveText'
+
+      _.each changedBuffer, (change)->
+
+        if !change.nested
+
+          console.log 'triggered saveText iterate'
+
+          newData = {}
+
+          query = {}
+          query[change.indexField] = change.document
+
+          pageId = eColl[change.collection].findOne(query)._id
+
+          newData[change.field] = change.data
+
+          eColl[change.collection].update pageId, {$set: newData}, ->
+            console.log 'saved'
+
+            console.log change.data
+
+          callback()
+
+
+        else if change.nested.type is 'array'
+
+          console.log 'triggered saveText iterate array'
+
+          newData = {}
+
+          query = {}
+          query[change.indexField] = change.document
+
+          updateObj = {}
+
+          updateObj['_id'] = eColl[change.collection].findOne(query)._id
+
+          console.log eColl[change.collection].findOne({'name': change.document})._id
+
+          updateObj[change.nested.field + '.id'] = change.nested.id
+
+          newData[change.nested.field + '.$.' + change.field] = change.data
+
+          eColl[change.collection].update updateObj, {$set: newData}, ->
+            console.log 'saved'
+
+          callback()
+
+    else
+
+      Meteor.Error(403, 'Not allowed')
+
+
+  showEditor: (val)->
 
     $('.editor').addClass('_opened')
     $('.editor').find('button').removeClass('_active')
+    editor.auraEditorHtml.setValue(val)
 
   hideEditor: ->
     $('.editor').removeClass('_opened')
@@ -729,6 +848,6 @@ UI.body.events {
 
 Aura.settings = {
   history: {
-    size: 20
+    size: 50
   }
 }

@@ -1,5 +1,7 @@
 <template name="auraModal">
 
+    {{#if isInRole 'admin'}}
+
     <div id="galleryAdmin" class="auraModal">
 
         <div class="close-modal"><i class="fa fa-times"></i></div>
@@ -41,6 +43,9 @@
 
     </div>
 
+    {{/if}}
+
+
 </template>
 
 
@@ -57,9 +62,19 @@
         </select>
         <select name="" id="subcategoryChoose">
             <option value="*">Подкатегория</option>
-            <option value="home">Кабинеты</option>
-            <option value="office">Детские</option>
-            <option value="commercial">Гостинные</option>
+            <option value="gost">Гостинные</option>
+            <option value="vann">Ванные комнаты</option>
+            <option value="kuhn">Кухни</option>
+            <option value="dets">Детские</option>
+            <option value="spal">Спальни</option>
+            <option value="gard">Гардеробные</option>
+            <option value="prie">Приемные</option>
+            <option value="arch">Архивы</option>
+            <option value="rabo">Рабочие места</option>
+            <option value="pere">Переговорные</option>
+            <option value="maga">Магазины</option>
+            <option value="cafe">Кафе и рестораны</option>
+            <option value="pavi">Павильоны</option>
         </select>
     </div>
 
@@ -81,4 +96,5 @@
 
     </div>
     {{/with}}
+
 </template>

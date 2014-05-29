@@ -1,5 +1,5 @@
-@widget-color: rgba(255, 255, 255, .8);
-@widget-font-color: black;
+@widget-color: rgba(0, 0, 0, .7);
+@widget-font-color: white;
 
 .admin-modal{
   width: 100%;
@@ -10,14 +10,14 @@
 }
 
 #admin-login-modal{
-  width: 500px;
-  height: 400px;
+  width: 328px;
+  height: 328px;
   background: white;
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -250px;
-  margin-top: -200px;
+  margin-left: -164px;
+  margin-top: -164px;
   z-index: 9999;
   background: rgba(0, 0, 0, .6);
   .transition(.8s);
@@ -25,12 +25,75 @@
   -moz-animation-duration: .7s;
   animation-duration: .7s;
   visibility: hidden;
+  .rounded(10px);
+  .close{
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 33px;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, .5);
+    border: 2px solid white;
+    position: absolute;
+    right: -15px;
+    top: -15px;
+    color: white;
+    opacity: 1;
+  }
+  .header{
+    .aura-company-logo{
+      width: 90px;
+      height: 89px;
+      background-repeat: no-repeat;
+      background-image: url(/img/logo.png);
+      margin: 30px auto 20px auto;
+    }
+  }
   .body{
     width: 92%;
     height: 92%;
-    margin-top: 3%;
+    margin-top: -6%;
     margin-left: 4%;
-    background: white;
+    .rounded(7px);
+    padding: 15px;
+    input[type="text"]:focus, input[type="password"]:focus{
+      border-color: #bff5ff;
+      box-shadow: 0 0 5px cyan, inset 0 0 5px cyan;
+    }
+    form{
+      button{
+        width: 50%;
+        float: right;
+        height: 35px;
+        .rounded(30px);
+        margin-top: 10px;
+        background: transparent;
+        border: 2px solid white;
+        color: white;
+        .transition(.4s);
+        &:hover{
+          color: #bff5ff;
+          text-shadow: 0 0 3px cyan;
+          border-color: #bff5ff;
+          box-shadow: 0 0 5px cyan, inset 0 0 5px cyan;
+        }
+      }
+    }
+  }
+  .footer{
+    position: absolute;
+    width: 100%;
+    top: 300px;
+    p{
+      color: rgba(255, 255, 255, .7);
+      text-align: center;
+      letter-spacing: 1.8em;
+      font-size: 11px;
+      span{
+        color: white;
+        font-weight: bold;
+      }
+    }
   }
 }
 
@@ -48,16 +111,25 @@
   }
   #toggle-admin-panel{
     position: absolute;
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 75px;
     top: 70px;
-    left: -70px;
+    left: -80px;
     color: @widget-font-color;
     background: @widget-color;
     text-align: center;
     line-height: 70px;
     .border-radius(0, 0, 100px, 100px);
     cursor: pointer;
+    .aura-logo{
+      height: 70px;
+      width: 70px;
+      background-image: url(/img/aura_logo.png);
+      -webkit-background-size: cover;
+      background-size: cover;
+      margin-top: 2px;
+      margin-left: 5px;
+    }
   }
   .wrap{
     height: 100%;
@@ -71,6 +143,7 @@
         border-radius: 70px;
         border: 2px solid @widget-font-color;
         margin: 30px auto;
+        background-image: url(/img/user_icon.png);
       }
       h2, h3{
         color: @widget-font-color;
@@ -120,6 +193,10 @@
         margin: 30px 40px;
       }
       #history-cont{
+        h3{
+          color: @widget-font-color;
+          text-align: center;
+        }
         ul{
           margin: 0;
           padding: 10px;
@@ -129,6 +206,7 @@
             border-bottom: 1px solid white;
             background: rgba(0, 0, 0, .1);
             cursor: pointer;
+            color: @widget-font-color;
             &.rolled-back{
               opacity: .7;
             }
@@ -136,5 +214,44 @@
         }
       }
     }
+  }
+}
+
+.aura-toggle-edit{
+  position: relative;
+  width: 200px;
+  height: 34px;
+  text-align: center;
+  border-radius: 20px;
+  line-height: 25px;
+  font-size: 20px;
+  border: 2px solid white;
+  color: white;
+  cursor: pointer;
+  .transition(.4s);
+  margin: 0 auto;
+  >div{
+    width: 26px;
+    height: 26px;
+    border: 2px solid white;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    border-radius: 20px;
+  }
+  &._active{
+    border-color: #bff5ff;
+    box-shadow: 0 0 5px cyan, inset 0 0 5px cyan;
+    color: #bff5ff;
+    text-shadow: 0 0 5px cyan;
+    >div{
+      border-color: #bff5ff;
+      box-shadow: 0 0 5px cyan, inset 0 0 5px cyan;
+      left: 168px;
+      .transition(.4s);
+    }
+  }
+  input[type="checkbox"]{
+    display: none;
   }
 }

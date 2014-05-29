@@ -4,20 +4,26 @@
 .editor{
   position: fixed;
   z-index: 9000;
-  background: rgba(255, 255, 255, .7);
+  background: rgba(0, 0, 0, .7);
   height: 100%;
   width: 70px;
   left: -70px;
   box-shadow: 0 0 3px #999;
   .transition(.4s);
   z-index: @editor-zindex;
+  border-right: 2px solid white;
+  .editor-cont{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
   .html-cont{
     position: absolute;
     left: 88px;
     top: 30px;
-    background: rgba(0, 0, 0, .8);
-    height: 236px;
-    width: 300px;
+    background: rgba(0, 0, 0, .7);
+    height: 300px;
+    width: 370px;
     padding: 4px;
     border-radius: 3px;
     border: 2px solid white;
@@ -36,16 +42,27 @@
       -moz-box-shadow: inset 0 0 3px #ccc;
       box-shadow: inset 0 0 3px #ccc;
     }
+    #editorHtml{
+      position:absolute;
+      width: 360px;
+      height: 259px;
+      left: 3px;
+      top: 3px;
+      z-index: 300;
+    }
     button{
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
       height: 26px;
-      line-height: 19px;
+      line-height: 12px;
       margin: 4px;
       float: right;
       border-color: white;
       color: white;
       background: #000;
     }
-    >div{
+    .corner{
       position: absolute;
       top: 19px;
       left: -12px;
@@ -109,22 +126,33 @@
     height: 50px;
     display: block;
     .rounded(50px);
-    border: 2px solid #999;
+    border: 2px solid white;
     .box-sizing(border-box);
     text-align: center;
     line-height: 43px;
     margin: 10px;
-    background: white;
+    background: rgba(0, 0, 0, .3);
+    color: white;
     .transition(all .4s ease);
     &.save{
       border-color: #00d311;
       color: #00d311;
+      &._active, &:hover{
+        border-color: #7eff5f;
+        box-shadow: 0 0 5px #29ff34, inset 0 0 5px #29ff34;
+      }
     }
-    &:hover{
-      .scale(1.1);
+    &.del{
+      border-color: #ff5974;
+      color: #ff5974;
+      &._active, &:hover{
+        border-color: #ffa9ae;
+        box-shadow: 0 0 5px #ff4144, inset 0 0 5px #ff524a;
+      }
     }
-    &._active{
-      border-color: #93b4ff;
+    &._active, &:hover{
+      border-color: #bff5ff;
+      box-shadow: 0 0 5px cyan, inset 0 0 5px cyan;
     }
   }
 }
@@ -146,9 +174,58 @@
 }
 
 *[contenteditable="true"]{
-  .transition(all 1s ease);
+  .transition(1s);
   &._editing{
     position: relative;
     z-index: @editor-zindex;
+  }
+}
+
+
+
+
+
+.hallotoolbar{
+  display: block !important;
+  height: 100% !important;
+  position: absolute;
+  left: auto !important;
+  right: 0 !important;
+  width: 100px !important;
+  position: absolute;
+  top: 0 !important;
+  background: rgba(0, 0, 0, .5);
+  border-left: 2px solid white;
+  >span{
+    >span{
+      display: block;
+      width: 100%;
+      button{
+        border: 0;
+        width: 50px;
+        height: 50px;
+        display: block;
+        .rounded(50px);
+        border: 2px solid #999;
+        .box-sizing(border-box);
+        text-align: center;
+        line-height: 43px;
+        margin: 10px;
+        background: white;
+        .transition(all .4s ease);
+        &.save{
+          border-color: #00d311;
+          color: #00d311;
+        }
+        &:hover{
+          .scale(1.1);
+        }
+        &.ui-state-active, &.ui-state-hover{
+          border-color: #58e6ff;
+          box-shadow: 0 0 7px #58e6ff;
+          box-shadow: inset 0 0 7px #58e6ff;
+        }
+      }
+    }
   }
 }
