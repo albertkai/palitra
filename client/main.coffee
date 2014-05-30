@@ -343,7 +343,7 @@ Template.gallery.events {
   'click .aura-edit-image': ->
     $('#galleryAdmin').addClass('_opened')
     $('.modal-ovrl').addClass('_visible')
-    $('#galleryAdmin').find('aside li').trigger 'click'
+    $('#galleryAdmin').find('aside li').first().trigger 'click'
 
 
 }
@@ -370,7 +370,6 @@ Template.capabilities.events {
 }
 
 Template.news.rendered = ->
-#  templatesRendered.loaded()
   Meteor.setTimeout ->
     $('#news-section').find('aside ul li').first().addClass('_active')
   , 500
@@ -464,10 +463,10 @@ Template.auraModal.helpers {
     Gallery.find({}, {sort: {'order': 1}})
 
   getThumb: (img)->
-
-    splited = img.split('.')
-    thumb = splited[0] + '_thumb.' + splited[1]
-    thumb
+    if img
+      splited = img.split('.')
+      thumb = splited[0] + '_thumb.' + splited[1]
+      thumb
 }
 
 Template.auraModal.events {
@@ -539,11 +538,12 @@ Meteor.setTimeout ->
       MainCtrl.galleryAdmin.reorderAlbums()
   })
   $('.auraModal').find('.list-wrap').empty()
-  if Session.get('auraModalList') is 'initial'
-    UI.insert(UI.renderWithData(Template.galleryList, Gallery.findOne()), $('.auraModal').find('.list-wrap').get(0))
-  else
-    UI.insert(UI.renderWithData(Template.galleryList, Gallery.findOne({'_id': Session.get('auraModalList')})), $('.auraModal').find('.list-wrap').get(0))
-, 2000
+  if $('.auraModal').find('.list-wrap').length > 0
+    if Session.get('auraModalList') is 'initial'
+      UI.insert(UI.renderWithData(Template.galleryList, Gallery.findOne()), $('.auraModal').find('.list-wrap').get(0))
+    else
+      UI.insert(UI.renderWithData(Template.galleryList, Gallery.findOne({'_id': Session.get('auraModalList')})), $('.auraModal').find('.list-wrap').get(0))
+, 3000
 
 Template.galleryList.helpers {
   item: ->
