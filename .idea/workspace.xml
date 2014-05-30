@@ -32,10 +32,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="main.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="558" column="18" selection-start="24550" selection-end="24550" vertical-scroll-proportion="0.0" vertical-offset="8370" max-vertical-offset="11940">
+            <state line="440" column="177" selection-start="19890" selection-end="19890" vertical-scroll-proportion="0.7265625" vertical-offset="6135" max-vertical-offset="11940">
               <folding />
             </state>
           </provider>
@@ -59,10 +59,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.less" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.less" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/style/main.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="361" column="36" selection-start="6845" selection-end="6845" vertical-scroll-proportion="0.5342679" vertical-offset="5072" max-vertical-offset="31905">
+            <state line="361" column="36" selection-start="6845" selection-end="6845" vertical-scroll-proportion="-14.291667" vertical-offset="5072" max-vertical-offset="31905">
               <folding />
             </state>
           </provider>
@@ -175,7 +175,6 @@
         <option value="$PROJECT_DIR$/client/compatibility/hallo.js" />
         <option value="$PROJECT_DIR$/client/compatibility/aura.js" />
         <option value="$PROJECT_DIR$/modules/aura/ui/auraModal.html" />
-        <option value="$PROJECT_DIR$/client/main.html" />
         <option value="$PROJECT_DIR$/modules/aura/aura.html" />
         <option value="$PROJECT_DIR$/modules/aura/fixture.coffee" />
         <option value="$PROJECT_DIR$/modules/aura/ui/adminPanel.html" />
@@ -192,6 +191,7 @@
         <option value="$PROJECT_DIR$/modules/aura/aura.less" />
         <option value="$PROJECT_DIR$/client/main.coffee" />
         <option value="$PROJECT_DIR$/client/style/main.less" />
+        <option value="$PROJECT_DIR$/client/main.html" />
       </list>
     </option>
   </component>
@@ -226,7 +226,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -365,6 +364,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -379,6 +379,14 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
+      <method />
+    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -389,23 +397,15 @@
       <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
-      <envs />
-      <method />
-    </configuration>
     <configuration default="true" type="JSTestDriver:ConfigurationType" factoryName="JsTestDriver">
       <setting name="configLocationType" value="CONFIG_FILE" />
       <setting name="settingsFile" value="" />
       <setting name="serverType" value="INTERNAL" />
       <setting name="preferredDebugBrowser" value="CHROME" />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
@@ -428,7 +428,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="820" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -463,9 +463,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24947146" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -774,13 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/client/main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="558" column="18" selection-start="24550" selection-end="24550" vertical-scroll-proportion="0.0" vertical-offset="8370" max-vertical-offset="11940">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/modules/aura/ui/auraModal.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="73" column="54" selection-start="2358" selection-end="2358" vertical-scroll-proportion="0.0" vertical-offset="720" max-vertical-offset="1575">
@@ -811,7 +804,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/style/main.less">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="361" column="36" selection-start="6845" selection-end="6845" vertical-scroll-proportion="0.5342679" vertical-offset="5072" max-vertical-offset="31905">
+        <state line="361" column="36" selection-start="6845" selection-end="6845" vertical-scroll-proportion="-14.291667" vertical-offset="5072" max-vertical-offset="31905">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="440" column="177" selection-start="19890" selection-end="19890" vertical-scroll-proportion="0.7265625" vertical-offset="6135" max-vertical-offset="11940">
           <folding />
         </state>
       </provider>
