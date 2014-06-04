@@ -3,6 +3,7 @@ Session.setDefault('gallerySort', 'all')
 Session.setDefault('auraModalReady', false)
 Session.setDefault('auraModalList', 'initial')
 Session.setDefault('galleryReady', false)
+Session.setDefault('mainRendered', false)
 
 Meteor.subscribe 'gallery', ->
   Session.set 'galleryReady', true
@@ -15,6 +16,12 @@ Meteor.subscribe 'news', ->
 #  state: []
 #  ready: false
 #}
+
+Deps.autorun ->
+  if Session.get('pagesReady') and Session.get('mainRendered')
+    console.log 'rerender'
+    $('#top').empty()
+    UI.insert(UI.renderWithData(Template.top, {top: Pages.findOne({name: 'top'}, {reactive: false})}), $('#top').get(0))
 
 
 @MainCtrl = {
@@ -149,7 +156,7 @@ Meteor.subscribe 'news', ->
       anchors: ['about', 'service', 'gallery', 'capabilities', 'news', 'contacts']
       menu: '#top-menu'
       scrollOverflow: true
-      normalScrollElements: '.auraModal, #map, .admin-panel .wrap'
+      normalScrollElements: '.auraModal, #map, .admin-panel .wrap, #news-section aside ul'
       afterLoad: (link, dir)->
         MainCtrl.pageLoaded(link, dir)
         MainCtrl.animatePage($('[data-anchor="' + link + '"]'))
@@ -174,6 +181,14 @@ Meteor.subscribe 'news', ->
             Meteor.setTimeout ->
               $('.tip').removeClass('_visible').addClass('_watched')
             , 6000
+        prevTop = 0
+        Meteor.setInterval ->
+          index = .65
+          top = parseInt $('#main-cont').css('top'), 10
+          if top isnt prevTop and top < 1200
+            prevTop = top
+            $('#top').find('.slide').css('background-position', '0 ' + (index * top * -1) + 'px')
+        , 13
       resize: false
       afterSlideLoad: (anchorLink, index, slideAnchor, slideIndex)->
         $('[data-anchor="' + slideAnchor + '"]').find('.desc').addClass('_animated')
@@ -186,6 +201,8 @@ Meteor.subscribe 'news', ->
     })
     $('#top').find('.slide').first().find('.container').find('.desc').addClass('_animated')
     $('#top').find('.slide').first().find('.container').find('button').addClass('_animated')
+    $('.slides').find('.desc').addClass('_animated')
+    $('.slides').find('button').addClass('_animated')
     if window.location.href.split('#')[1]
       target = window.location.href.split('#')[1]
       $.fn.fullpage.moveTo(target)
@@ -255,6 +272,8 @@ UI.body.events {
 
 Template.main.rendered = ->
 
+  Session.set('mainRendered', true)
+
   MainCtrl.loader = new CanvasLoader('loader')
   MainCtrl.loader.setColor('#ffffff')
   MainCtrl.loader.setDiameter(56)
@@ -271,17 +290,24 @@ UI.body.events {
     $.fn.fullpage.moveTo(target)
 }
 
-
-Template.top.helpers {
-  top: ->
-    Pages.findOne({name: 'top'})
-}
-
+#
+#Template.top.helpers {
+#  top: ->
+#    Pages.findOne({name: 'top'})
+#
+#}
 
 
 Template.service.helpers {
   service: ->
     Pages.findOne({name: 'service'})
+}
+
+Template.service.events {
+  'mouseenter .first-cont .row>div': (e)->
+    $(e.currentTarget).find('.img').addClass('animated').addClass('bounce')
+  'mouseleave .first-cont .row>div': (e)->
+    $(e.currentTarget).find('.img').removeClass('animated').removeClass('bounce')
 }
 
 Template.capabilities.helpers {
@@ -487,33 +513,70 @@ Template.auraModal.events {
     clicked = $(e.target).closest('li')
     id = clicked.data('id')
     images = Gallery.findOne({'_id': id}).images
+    order = parseInt clicked.data('order'), 10
     console.log images
+    (new PNotify({
+      title: 'Удалить целый альбом?',
+      text: 'Все фотографии этого альбома будут удалены с хостинга',
+      hide: false,
+      addclass: 'aura-notify'
+      confirm: {
+        confirm: true
+      },
+      buttons: {
+        closer: false,
+        sticker: false
+      },
+      history: {
+        history: false
+      }
+    })).get().on('pnotify.confirm', ->
 
-    Meteor.call 'deletePics', images, (err, res)->
-      if err
+      Meteor.call 'deletePics', images, (err, res)->
+        if err
 
-        Aura.notify 'Изображения не удалены:( Может и к лучшему))'
-
-      else
-
-        if res
-
-          Gallery.remove id
-          Aura.notify 'Альбом удален!'
+          Aura.notify 'Изображения не удалены:( Может и к лучшему))'
 
         else
 
-          Aura.notify 'Изображения не удалены:( Ошибка на стороне сервера'
+          if res
+
+            Gallery.remove id
+            Aura.notify 'Альбом удален!'
+            MainCtrl.hideLoader()
+            $(e.target).closest('ul').find('li').first().trigger('click')
+
+            Gallery.find({order: {$gt: order}}).fetch().forEach (album)->
+              newOrder = album.order - 1
+              id = album._id
+              Gallery.update id, {$set: {order: newOrder}}
+
+          else
+
+            Aura.notify 'Изображения не удалены:( Ошибка на стороне сервера'
+
+    ).on('pnotify.cancel', ->
+      console.log 'deletion canceled'
+    )
+
 
   'click aside .add-new': (e)->
 
+    Gallery.find().fetch().forEach (album)->
+      newOrder = album.order + 1
+      console.log newOrder
+      Gallery.update album._id, {$set: {order: newOrder}}
+
     Gallery.insert {
-      category: 'home'
+      order: 0,
+      category: 'home',
       subcategory: 'cafe',
       images: [],
-      title: ''
+      title: 'Новый альбом'
     }, (id)->
-      console.log id
+      Meteor.setTimeout ->
+        $(e.target).siblings('ul').find('li').first().trigger('click')
+      , 300
 
   'keypress #albumName': (e)->
     Meteor.setTimeout ->
@@ -559,7 +622,6 @@ Template.galleryList.events {
     id = $('#albumId').val()
     image = _.last(clicked.find('.img').css('background-image').split('/')).replace(')', '')
     console.log image
-
     Meteor.call 'deletePic', image, (err, res)->
       if err
 

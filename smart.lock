@@ -10,7 +10,9 @@
       "pnotify": {},
       "aws-sdk": {},
       "jquery-ui": {},
-      "ace-embed": {}
+      "ace-embed": {},
+      "isolate-value": {},
+      "aloha-editor": {}
     },
     "packages": {
       "bootstrap3-less": {
@@ -57,6 +59,16 @@
         "git": "https://github.com/stuartfenton/meteor-ace-embed.git",
         "tag": "v0.0.4",
         "commit": "027b0e1b0d06111b51a713f04a8b8750fdcbd289"
+      },
+      "isolate-value": {
+        "git": "https://github.com/awwx/meteor-isolate-value.git",
+        "tag": "v2.0.2",
+        "commit": "6b8600b29190073fa3785b48b028f113edfdffc2"
+      },
+      "aloha-editor": {
+        "git": "https://github.com/evo42/meteor-aloha-editor.git",
+        "tag": "v0.1.2",
+        "commit": "0f903efa86abc6aabb112f772468ef5e7aaa3577"
       },
       "blocking": {
         "git": "https://github.com/peerlibrary/meteor-blocking.git",

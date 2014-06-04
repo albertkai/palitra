@@ -12,6 +12,10 @@ if Meteor.isClient
 
   Meteor.startup ->
 
+    $(window).on 'blur', ->
+
+      console.log 'blured'
+
     Deps.autorun ->
       if Session.get('admin.editMode') is true
         $('[contenteditable]').each ->
@@ -172,7 +176,7 @@ UI.body.events {
     e.stopPropagation()
 
   'focus [contenteditable="true"]': (e)->
-    data = $(e.target).closest('[contenteditable="true"]').html()
+    data = $(e.currentTarget).html()
     markup = $.htmlClean(data, {format:true})
     editor.showEditor(markup)
     editor._trackChanges.currentValue = data
@@ -200,64 +204,71 @@ UI.body.events {
     false
 
   'blur [contenteditable="true"]': (e)->
-    currentState = $(e.target).closest('[contenteditable="true"]').html()
-    if currentState isnt editor.editingItem
-      fieldData = $(e.target).data('field')
-      $('.editor .html-cont textarea').data('index', Aura._historyBuffer.length)
-      fields = do ->
-        if fieldData.match /^\$/
-          id = $(e.target).closest('[data-nested-id]').data('nested-id')
-          {
-          field: fieldData.split('.')[2]
-          nested: {
-            id: id
-            type: 'array'
+    console.log 'blurred'
+    if !editor.blured
+      currentState = $(e.currentTarget).html()
+      if currentState isnt editor.editingItem
+        fieldData = $(e.target).data('field')
+        $('.editor .html-cont textarea').data('index', Aura._historyBuffer.length)
+        fields = do ->
+          if fieldData.match /^\$/
+            id = $(e.target).closest('[data-nested-id]').data('nested-id')
+            {
+            field: fieldData.split('.')[2]
+            nested: {
+              id: id
+              type: 'array'
+              field: fieldData.split('.')[1]
+            }
+            }
+          else if fieldData.match /\./
+            {
             field: fieldData.split('.')[1]
-          }
-          }
-        else if fieldData.match /\./
-          {
-          field: fieldData.split('.')[1]
-          nested: {
-            type: 'prop'
-            field: fieldData.split('.')[0]
-          }
-          }
-        else
-          {
-          field: fieldData
-          nested: null
-          }
+            nested: {
+              type: 'prop'
+              field: fieldData.split('.')[0]
+            }
+            }
+          else
+            {
+            field: fieldData
+            nested: null
+            }
 
-      indexField = do ->
-        if $(e.target).closest('[data-document]').data('index-field')
-          $(e.target).closest('[data-document]').data('index-field')
-        else
-          '_id'
+        indexField = do ->
+          if $(e.target).closest('[data-document]').data('index-field')
+            $(e.target).closest('[data-document]').data('index-field')
+          else
+            '_id'
 
-      Aura._historyBuffer.push {
-        field: $(e.target).data('field')
-        document: $(e.target).closest('[data-document]').data('document')
-        indexField: indexField
-        collection: $(e.target).closest('[data-collection]').data('collection')
-        data: editor.editingItem
-        newData: $(e.target).closest('[contenteditable="true"]').html()
-        selectorPath: $(e.target).getPath()
-        type: 'text'
-        rolledBack: false
-        changable: true
-        nested: fields.nested
-      }
-      editor._changedBuffer.push {
-        field: fields.field
-        document: $(e.target).closest('[data-document]').data('document')
-        collection: $(e.target).closest('[data-collection]').data('collection')
-        indexField: indexField
-        data: $(e.target).closest('[contenteditable="true"]').html()
-        nested: fields.nested
-      }
-      console.log editor._changedBuffer
-      $(e.target).closest('[contenteditable="true"]').addClass('_changed')
+        Aura._historyBuffer.push {
+          field: $(e.target).data('field')
+          document: $(e.target).closest('[data-document]').data('document')
+          indexField: indexField
+          collection: $(e.target).closest('[data-collection]').data('collection')
+          data: editor.editingItem
+          newData: $(e.target).closest('[contenteditable="true"]').html()
+          selectorPath: $(e.target).getPath()
+          type: 'text'
+          rolledBack: false
+          changable: true
+          nested: fields.nested
+        }
+        editor._changedBuffer.push {
+          field: fields.field
+          document: $(e.target).closest('[data-document]').data('document')
+          collection: $(e.target).closest('[data-collection]').data('collection')
+          indexField: indexField
+          data: $(e.target).closest('[contenteditable="true"]').html()
+          nested: fields.nested
+        }
+        console.log editor._changedBuffer
+        console.log Aura._historyBuffer
+        $(e.target).closest('[contenteditable="true"]').addClass('_changed')
+        editor.blured = true
+        Meteor.setTimeout ->
+          editor.blured = false
+        , 1000
 
   'change .aura-edit-image input[type="file"]': (e)->
     input = $(e.target)
@@ -282,6 +293,7 @@ UI.body.events {
         title: 'Удалить старое изображение?',
         text: 'Желательно удалять, чтобы не перегружать хостинг',
         hide: false,
+        addclass: 'aura-notify',
         confirm: {
           confirm: true
         },
@@ -359,10 +371,10 @@ UI.body.events {
         }
       })).get().on('pnotify.confirm', ->
 
-        Aura.media.updatePic(e, pic, file, target, currentPic)
+        Aura.media.updatePic(e, pic, file, target, currentPic, false)
 
       ).on('pnotify.cancel', ->
-        Aura.media.uploadPic(e, pic, file, target)
+        Aura.media.uploadPic(e, pic, file, target, false)
       )
 
     fr.readAsBinaryString(file)
@@ -403,7 +415,8 @@ UI.body.events {
   notify: (message)->
     new PNotify({
       title: 'Спасибо!',
-      text: message
+      text: message,
+      addclass: 'aura-notify'
     })
 
   media: {
@@ -426,7 +439,7 @@ UI.body.events {
             query[indexField] = document
             newData[fieldName] = file.name
             targetId = eColl[collection].findOne(query)._id
-            eColl[collection].update targetId, {$set: newData}, {reactive: false}, ->
+            eColl[collection].update targetId, {$set: newData}, ->
               if target is 'background'
                 $('<img>').attr('src', 'http://d9bm0rz9duwg1.cloudfront.net/' + file.name).load ->
                   MainCtrl.hideLoader()
@@ -662,6 +675,8 @@ UI.body.events {
 
 
 @editor = {
+
+  blured: false
 
   _editingItem: ''
 

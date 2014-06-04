@@ -342,7 +342,7 @@
     {{>topNav}}
 
     <div id="main-cont">
-        <div id="top" class="section" data-anchor="about" data-document="top" data-collection="pages" data-index-field="name">{{>top}}</div>
+        <div id="top" class="section" data-anchor="about" data-document="top" data-collection="pages" data-index-field="name"></div>
         <div id="service-section" class="section" data-anchor="service" data-document="service" data-collection="pages" data-index-field="name">{{>service}}</div>
         <div id="gallery-section" class="section" data-anchor="gallery">{{>gallery}}</div>
         <div id="capabilities-section" class="section" data-anchor="capabilities" data-document="capabilities" data-collection="pages" data-index-field="name">{{>capabilities}}</div>
@@ -414,36 +414,34 @@
 
 <template name="top">
 
-    {{#with top}}
-
-    <div class="slide" data-anchor="top-slide1" data-image="image1" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image1}})">
+    <div class="slide" data-anchor="top-slide1" data-image="image1" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{top.image1}})">
 
         {{>addImageButton}}
 
         <div class="container">
-            <p class="desc" data-field="text1" contenteditable="false">{{{text1}}}</p>
+            <p class="desc" data-field="text1" contenteditable="false">{{{top.text1}}}</p>
             <button data-target="service"><span><i class="fa fa-angle-down"></i><br/></span>подробнее</button>
         </div>
 
     </div>
 
-    <div class="slide" data-anchor="top-slide2" data-image="image2" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image2}})">
+    <div class="slide" data-anchor="top-slide2" data-image="image2" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{top.image2}})">
 
         {{>addImageButton}}
 
         <div class="container">
-            <p class="desc" data-field="text2" contenteditable="false">{{{text2}}}</p>
+            <p class="desc" data-field="text2" contenteditable="false">{{{top.text2}}}</p>
             <button data-target="gallery"><span><i class="fa fa-angle-down"></i><br/></span>подробнее</button>
         </div>
 
     </div>
 
-    <div class="slide" data-anchor="top-slide3" data-image="image3" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{image3}})">
+    <div class="slide" data-anchor="top-slide3" data-image="image3" data-image-target="background" style="background-image: url(http://d9bm0rz9duwg1.cloudfront.net/{{top.image3}})">
 
         {{>addImageButton}}
 
         <div class="container">
-            <p class="desc" data-field="text3" contenteditable="false">{{{text3}}}</p>
+            <p class="desc" data-field="text3" contenteditable="false">{{{top.text3}}}</p>
             <button data-target="capabilities"><span><i class="fa fa-angle-down"></i><br/></span>подробнее</button>
         </div>
 
@@ -459,8 +457,6 @@
         </ul>
 
     </nav>
-
-    {{/with}}
 
 
 

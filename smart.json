@@ -8,6 +8,8 @@
     "pnotify": {},
     "aws-sdk": {},
     "jquery-ui": {},
-    "ace-embed": {}
+    "ace-embed": {},
+    "isolate-value": {},
+    "aloha-editor": {}
   }
 }
